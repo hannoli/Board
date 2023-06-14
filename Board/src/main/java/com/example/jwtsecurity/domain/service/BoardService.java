@@ -26,6 +26,7 @@ public class BoardService {
                 .boardLocaltime(boardDTO.getLocalTime())
                 .boardTitle(boardDTO.getTitle())
                 .boardTexts(boardDTO.getTexts())
+                .boardView(0L)
                 .build();
         System.out.println("boardDTO.getAuthor() = " + boardDTO.getAuthor());
         boardRepository.save(newBoardEntity);
@@ -37,7 +38,7 @@ public class BoardService {
     public BoardDTO getBoard(Long boardId){
         BoardEntity boardEntity = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("게시판을 찾을 수 없습니다."));
-
+         boardEntity.increaseView();
         System.out.println("getBoard() = " + boardEntity);
         BoardDTO b_dto = BoardDTO.toBoardDTO(boardEntity);
         System.out.println("b_dto = " + b_dto);

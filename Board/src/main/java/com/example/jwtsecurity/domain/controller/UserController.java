@@ -4,10 +4,7 @@ package com.example.jwtsecurity.domain.controller;
 import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.CommentDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
-import com.example.jwtsecurity.domain.entity.BoardEntity;
-import com.example.jwtsecurity.domain.entity.MemberEntity;
 import com.example.jwtsecurity.domain.entity.Token;
-import com.example.jwtsecurity.domain.repository.MemberRepository;
 import com.example.jwtsecurity.domain.service.BoardService;
 import com.example.jwtsecurity.domain.service.CommentService;
 import com.example.jwtsecurity.domain.service.JwtService;
@@ -17,9 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -68,10 +62,19 @@ private final CommentService commentService;
      commentService.commentRegister(commentDTO);
      return commentDTO;
     }
-    @GetMapping("/board/{boardId}")
-    public void boardPage(@PathVariable Long boardId,Model model){
+    @PostMapping("/board/{boardId}")
+    public BoardDTO boardPage(@PathVariable Long boardId,Model model){
        BoardDTO boardDTO = boardService.getBoard(boardId);
         model.addAttribute("board", boardDTO);
         System.out.println("얻어낸 보드 = " + boardDTO);
+        return boardDTO;
     }
+
+/*    @PostMapping("board/{boardId}")
+    public String viewResponse(@PathVariable Long boardId,
+                                     @RequestBody ViewResponse viewResponse){
+        BoardDTO getBoardId = boardService.getBoard(boardId);
+        System.out.println("getBoardId = " + getBoardId);
+        return "redirect"
+    }*/
 }

@@ -16,17 +16,18 @@ import java.time.LocalTime;
 @ToString
 public class BoardDTO {
 
-   // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 
     private String title;
     private String texts;
     private String author = SecurityContextHolder.getContext().getAuthentication().getName();
     private LocalTime localTime = LocalTime.now();
-
-
+    private Long view;
+    
     public static BoardDTO toBoardDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setView(boardEntity.getBoardView());
         boardDTO.setTitle(boardEntity.getBoardTitle());
         boardDTO.setTexts(boardEntity.getBoardTexts());
         boardDTO.setAuthor(boardEntity.getBoardAuthor());

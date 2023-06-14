@@ -33,21 +33,28 @@ public class BoardEntity {
     @Column
     private LocalTime boardLocaltime;
 
- /*   @ManyToOne
-    @JoinColumn(name = "member_id")
-    private MemberEntity memberEntities;
+    @Column
+    private Long boardView;
 
-*/
+    /*   @ManyToOne
+       @JoinColumn(name = "member_id")
+       private MemberEntity memberEntities;
+
+   */
     @OneToMany(mappedBy = "boardEntity")
     private List<CommentEntity> commentEntities = new ArrayList<>();
 
     @Builder
-    public BoardEntity(Long id, String boardTitle, String boardTexts, String boardAuthor, LocalTime boardLocaltime) {
+    public BoardEntity(Long id, String boardTitle, String boardTexts, String boardAuthor, LocalTime boardLocaltime, Long boardView) {
         this.id = id;
         this.boardTitle = boardTitle;
         this.boardTexts = boardTexts;
-        this.boardAuthor= boardAuthor;
+        this.boardAuthor = boardAuthor;
         this.boardLocaltime = boardLocaltime;
-     //   this.memberEntities = memberEntities;
+        this.boardView = boardView;
+        //   this.memberEntities = memberEntities;
+    }
+    public void increaseView() {
+        this.boardView++;
     }
 }
