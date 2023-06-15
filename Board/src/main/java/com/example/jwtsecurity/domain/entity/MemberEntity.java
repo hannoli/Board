@@ -28,17 +28,16 @@ public class MemberEntity {
 
     @Column
     private String memberPassword;
-/*
 
     @OneToMany(mappedBy = "memberEntities")
     private List<BoardEntity> boardEntities = new ArrayList<>();
-*/
 
     @Builder
-    public MemberEntity(Long id, String memberName, String memberPassword) {
+    public MemberEntity(Long id, String memberName, String memberPassword,List<BoardEntity> boardEntities) {
         this.id = id;
         this.memberName = memberName;
         this.memberPassword = memberPassword;
+        this.boardEntities = boardEntities;
     }
 
 

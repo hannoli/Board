@@ -2,6 +2,7 @@ package com.example.jwtsecurity.domain.entity;
 
 
 import javax.persistence.*;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -35,25 +37,63 @@ public class BoardEntity {
 
     @Column
     private Long boardView;
+/*
 
-    /*   @ManyToOne
-       @JoinColumn(name = "member_id")
-       private MemberEntity memberEntities;
+    @ElementCollection
+    private List<String> likelist;
+*/
 
-   */
+    @Column
+    private Long boardLike;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private MemberEntity memberEntities;
+
     @OneToMany(mappedBy = "boardEntity")
     private List<CommentEntity> commentEntities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "boardLikeEntity")
+    private List<LikeEntity> likeEntities = new ArrayList<>();
+
+    public List<String> getLikeUserNames() {
+        return likeEntities.stream()
+                .map(likeEntity -> likeEntity.getLikeUsers())
+                .collect(Collectors.toList());
+    }
+
     @Builder
-    public BoardEntity(Long id, String boardTitle, String boardTexts, String boardAuthor, LocalTime boardLocaltime, Long boardView) {
+    public BoardEntity(List<CommentEntity> commentEntities, Long id, String boardTitle, String boardTexts, String boardAuthor, LocalTime boardLocaltime, Long boardView, Long boardLike, MemberEntity memberEntity
+            , List<LikeEntity> likeEntities) {
         this.id = id;
         this.boardTitle = boardTitle;
         this.boardTexts = boardTexts;
         this.boardAuthor = boardAuthor;
         this.boardLocaltime = boardLocaltime;
         this.boardView = boardView;
-        //   this.memberEntities = memberEntities;
+        this.boardLike = boardLike;
+        this.memberEntities = memberEntity;
+        this.commentEntities = commentEntities;
+        this.likeEntities = likeEntities;
+    //   this.memberEntities = memberEntities;
     }
+
+    public void increaseLike() {
+        this.boardLike++;
+    }
+
+    public void decreaseLike() {
+        this.boardLike--;
+    }
+
+    public void addLikeList(String boardAuthor, List<String> likelist) {
+        likelist.add(boardAuthor);
+    }
+
+    public void removeLikeList(String boardAuthor, List<String> likelist) {
+        likelist.remove(boardAuthor);
+    }
+
     public void increaseView() {
         this.boardView++;
     }

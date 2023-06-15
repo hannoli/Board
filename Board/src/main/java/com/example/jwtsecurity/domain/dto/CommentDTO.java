@@ -16,6 +16,7 @@ public class CommentDTO {
     private String commentText;
     private String commentWriter= SecurityContextHolder.getContext().getAuthentication().getName();
     private Long boardId;
+
     public static CommentDTO toCommentDTO(CommentEntity commentEntity) {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setCommentText(commentEntity.getCommentText());
