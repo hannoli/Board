@@ -62,11 +62,15 @@ public class MemberService {
         Optional<MemberEntity> byName = memberRepository.findByMemberName(updatePasswordRequest.getName());
         if (byName.isPresent()) {
             System.out.println("성공 ");
-            if (Objects.equals(updatePasswordRequest.getNowPassword(), byName.get().getMemberPassword())) ;
-            MemberEntity member = byName.get();
-            member.updatePassword(updatePasswordRequest.getNewPassword());
-            UpdatePasswordResponse response = UpdatePasswordResponse.toupdatePasswordResponse(member);
-            return response;
+            if (Objects.equals(updatePasswordRequest.getNowPassword(), byName.get().getMemberPassword())) {
+                System.out.println("updatePasswordRequest.getNowPassword() = " + updatePasswordRequest.getNowPassword());
+                System.out.println("byName.get().getMemberPassword() = " + byName.get().getMemberPassword());
+                MemberEntity member = byName.get();
+                member.updatePassword(updatePasswordRequest.getNewPassword());
+                UpdatePasswordResponse response = UpdatePasswordResponse.toupdatePasswordResponse(member);
+                return response;
+            }
+            return null;
         }
         System.out.println("실패");
         return null;
