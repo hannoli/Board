@@ -27,9 +27,6 @@ public class LikeService {
         boolean alreadyLiked = false;
         BoardEntity boardEntity = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("게시판을 찾을 수 없습니다."));
-  /*      LikeEntity likeEntity = likeRepository.findByLikeUsers(likeDTO.getLikeUser())
-                        .orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수없습니다"));
-      */
         System.out.println("likeDTO.getLikeUser() = " + likeDTO.getLikeUser());
         System.out.println("boardEntity.getLikeUserNames() = " + boardEntity.getLikeUserNames());
         for (String name : boardEntity.getLikeUserNames()) {

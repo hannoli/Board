@@ -28,6 +28,8 @@ public class BoardDTO {
     private LocalTime localTime = LocalTime.now();
     private Long view;
     private Long like;
+
+
     public static BoardDTO toBoardDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setView(boardEntity.getBoardView());
@@ -39,4 +41,6 @@ public class BoardDTO {
         boardDTO.setMemberId(boardEntity.getMemberEntities().getId());
         return boardDTO;
     }
+
+
 }

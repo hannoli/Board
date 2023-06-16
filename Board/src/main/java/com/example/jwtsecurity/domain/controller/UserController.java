@@ -52,8 +52,9 @@ public class UserController {
     @PostMapping("/register")
     public BoardDTO boardDTO(@RequestBody BoardDTO boardDTO) {
         log.info("board context = {}", boardDTO.getTexts());
-        boardService.register(boardDTO);
-        return boardDTO;
+        BoardDTO register = boardService.register(boardDTO);
+        System.out.println("boardDTO = " + boardDTO);
+        return register;
     }
 
     @PostMapping("/comment")

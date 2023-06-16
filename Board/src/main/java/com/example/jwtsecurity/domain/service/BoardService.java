@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +23,20 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
+    public void findMemberByName(String memberName) {
+        Optional<MemberEntity> member = memberRepository.findByMemberName(memberName);
+        member.ifPresentOrElse(
+                m -> System.out.println("Member found: " + m.getId()),
+                () -> System.out.println("Member not found.")
+        );
+    }
+
     @Transactional
-    public void register(BoardDTO boardDTO) {
-        MemberEntity member = memberRepository.findById(boardDTO.getMemberId())
+    public BoardDTO register(BoardDTO boardDTO) {
+        MemberEntity member = memberRepository.findByMemberName(boardDTO.getAuthor())
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+/*        MemberEntity member = memberRepository.findByMemberName(boardDTO.getAuthor());
+        member.orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));*/
         BoardEntity newBoardEntity = BoardEntity.builder()
                 .boardAuthor((boardDTO.getAuthor()))
                 .boardLocaltime(boardDTO.getLocalTime())
@@ -37,8 +48,9 @@ public class BoardService {
                 .build();
         System.out.println("boardDTO.getAuthor() = " + boardDTO.getAuthor());
         boardRepository.save(newBoardEntity);
-        BoardDTO b_dto = BoardDTO.toBoardDTO(newBoardEntity);
-        System.out.println("b_dto = " + b_dto);
+        boardDTO = BoardDTO.toBoardDTO(newBoardEntity);
+        System.out.println("반환됭 보드 = " + boardDTO);
+        return boardDTO;
     }
 
     @Transactional
