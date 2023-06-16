@@ -3,7 +3,9 @@ package com.example.jwtsecurity.domain.service;
 import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
 import com.example.jwtsecurity.domain.dto.request.UpdateNameRequest;
+import com.example.jwtsecurity.domain.dto.request.UpdatePasswordRequest;
 import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
+import com.example.jwtsecurity.domain.dto.response.UpdatePasswordResponse;
 import com.example.jwtsecurity.domain.entity.BoardEntity;
 import com.example.jwtsecurity.domain.entity.MemberEntity;
 import com.example.jwtsecurity.domain.repository.MemberRepository;
@@ -55,6 +57,20 @@ public class MemberService {
         return null;
     }
 
+    @Transactional
+    public UpdatePasswordResponse updatePassword(UpdatePasswordRequest updatePasswordRequest) {
+        Optional<MemberEntity> byName = memberRepository.findByMemberName(updatePasswordRequest.getName());
+        if (byName.isPresent()) {
+            System.out.println("성공 ");
+            if (Objects.equals(updatePasswordRequest.getNowPassword(), byName.get().getMemberPassword())) ;
+            MemberEntity member = byName.get();
+            member.updatePassword(updatePasswordRequest.getNewPassword());
+            UpdatePasswordResponse response = UpdatePasswordResponse.toupdatePasswordResponse(member);
+            return response;
+        }
+        System.out.println("실패");
+        return null;
+    }
 
 
     @Transactional

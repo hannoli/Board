@@ -7,8 +7,10 @@ import com.example.jwtsecurity.domain.dto.MemberDTO;
 import com.example.jwtsecurity.domain.dto.request.DeleteBoardRequest;
 import com.example.jwtsecurity.domain.dto.request.UpdateBoardRequest;
 import com.example.jwtsecurity.domain.dto.request.UpdateNameRequest;
+import com.example.jwtsecurity.domain.dto.request.UpdatePasswordRequest;
 import com.example.jwtsecurity.domain.dto.response.UpdateBoardResopnse;
 import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
+import com.example.jwtsecurity.domain.dto.response.UpdatePasswordResponse;
 import com.example.jwtsecurity.domain.entity.Token;
 import com.example.jwtsecurity.domain.service.*;
 import com.example.jwtsecurity.global.security.jwt.JwtTokenProvider;
@@ -97,9 +99,16 @@ public class UserController {
     }
 
     @PostMapping("update/board")
-    public UpdateBoardResopnse updateBoard(@RequestBody UpdateBoardRequest updateBoardRequest){
-UpdateBoardResopnse updateBoardResopnse = boardService.boardUpdate(updateBoardRequest);
+    public UpdateBoardResopnse updateBoard(@RequestBody UpdateBoardRequest updateBoardRequest) {
+        UpdateBoardResopnse updateBoardResopnse = boardService.boardUpdate(updateBoardRequest);
         System.out.println("updateBoardResopnse = " + updateBoardResopnse);
-return updateBoardResopnse;
+        return updateBoardResopnse;
+    }
+
+    @PostMapping("update/password")
+    public UpdatePasswordResponse updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest){
+        UpdatePasswordResponse updatePasswordResponse = memberService.updatePassword(updatePasswordRequest);
+        return updatePasswordResponse;
+
     }
 }

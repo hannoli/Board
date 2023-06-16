@@ -58,5 +58,7 @@ public class MemberEntity {
             likeEntity.updateLikeUser(newName);
         }
     }
-
+public void updatePassword(String newPassword){
+        this.memberPassword = newPassword;
+}
 }
