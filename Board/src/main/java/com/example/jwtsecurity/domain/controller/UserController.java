@@ -4,6 +4,8 @@ package com.example.jwtsecurity.domain.controller;
 import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.CommentDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
+import com.example.jwtsecurity.domain.dto.request.UpdateNameRequest;
+import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
 import com.example.jwtsecurity.domain.entity.Token;
 import com.example.jwtsecurity.domain.service.*;
 import com.example.jwtsecurity.global.security.jwt.JwtTokenProvider;
@@ -71,6 +73,7 @@ public class UserController {
         return boardDTO;
     }
 
+
     @PostMapping("/board/{boardId}/like")
     public BoardDTO boardLike(@PathVariable Long boardId, Model model) {
         BoardDTO boardDTO = likeService.getLike(boardId);
@@ -79,5 +82,10 @@ public class UserController {
         return boardDTO;
     }
 
+    @PostMapping("/update/name")
+    public UpdateNameResponse updateName(@RequestBody UpdateNameRequest updateNameRequest) {
+        UpdateNameResponse updateNameResponse = memberService.updateName(updateNameRequest);
+        return updateNameResponse;
+    }
 
 }

@@ -32,6 +32,12 @@ public class MemberEntity {
     @OneToMany(mappedBy = "memberEntities")
     private List<BoardEntity> boardEntities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "memberCommentEntities")
+    private List<CommentEntity> commentEntities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "memberLikeEntities")
+    private List<LikeEntity> likeEntities = new ArrayList<>();
+
     @Builder
     public MemberEntity(Long id, String memberName, String memberPassword,List<BoardEntity> boardEntities) {
         this.id = id;
@@ -40,6 +46,17 @@ public class MemberEntity {
         this.boardEntities = boardEntities;
     }
 
-
+    public void updateName(String newName) {
+        this.memberName = newName;
+        for (BoardEntity boardEntity : boardEntities) {
+            boardEntity.updateAuthor(newName);
+        }
+        for (CommentEntity commentEntity : commentEntities) {
+            commentEntity.updateCommentUser(newName);
+        }
+        for (LikeEntity likeEntity : likeEntities) {
+            likeEntity.updateLikeUser(newName);
+        }
+    }
 
 }

@@ -5,6 +5,7 @@ import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.LikeDTO;
 import com.example.jwtsecurity.domain.entity.BoardEntity;
 import com.example.jwtsecurity.domain.entity.LikeEntity;
+import com.example.jwtsecurity.domain.entity.MemberEntity;
 import com.example.jwtsecurity.domain.repository.BoardRepository;
 import com.example.jwtsecurity.domain.repository.LikeRepository;
 import com.example.jwtsecurity.domain.repository.MemberRepository;
@@ -20,13 +21,15 @@ import java.util.Objects;
 public class LikeService {
     private final BoardRepository boardRepository;
     private final LikeRepository likeRepository;
-
+private final MemberRepository memberRepository;
     @Transactional
     public BoardDTO getLike(Long boardId) {
         LikeDTO likeDTO =new LikeDTO();
         boolean alreadyLiked = false;
         BoardEntity boardEntity = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("게시판을 찾을 수 없습니다."));
+        MemberEntity member = memberRepository.findByMemberName(boardEntity.getBoardAuthor())
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
         System.out.println("likeDTO.getLikeUser() = " + likeDTO.getLikeUser());
         System.out.println("boardEntity.getLikeUserNames() = " + boardEntity.getLikeUserNames());
         for (String name : boardEntity.getLikeUserNames()) {
@@ -41,6 +44,7 @@ public class LikeService {
             LikeEntity newlikeEntity = LikeEntity.builder()
                     .likeUsers(likeDTO.getLikeUser())
                     .boardLikeEntity(boardEntity)
+                    .memberLikeEntities(member)
                     .build();
             likeRepository.save(newlikeEntity);
             //String likeUser = boardEntity.getMemberEntities().getMemberName();

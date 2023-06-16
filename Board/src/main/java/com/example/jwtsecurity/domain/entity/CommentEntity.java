@@ -26,12 +26,22 @@ public class CommentEntity {
     @JoinColumn(name = "board_id")
     private BoardEntity boardEntity;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private MemberEntity memberCommentEntities;
+
+
     @Builder
-    public CommentEntity(Long id, String commentText, String commentWriter,BoardEntity boardEntity) {
+    public CommentEntity(Long id, String commentText, String commentWriter,BoardEntity boardEntity,MemberEntity memberCommentEntities) {
         this.id = id;
         this.commentText = commentText;
         this.commentWriter = commentWriter;
         this.boardEntity = boardEntity;
+        this.memberCommentEntities = memberCommentEntities;
+    }
+
+    public void updateCommentUser(String newCommentUser) {
+        this.commentWriter = newCommentUser;
     }
 }
 

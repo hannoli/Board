@@ -97,4 +97,8 @@ public class BoardEntity {
     public void increaseView() {
         this.boardView++;
     }
+
+    public void updateAuthor(String newAuthor) {
+        this.boardAuthor = newAuthor;
+    }
 }

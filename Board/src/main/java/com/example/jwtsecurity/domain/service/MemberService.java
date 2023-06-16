@@ -1,6 +1,10 @@
 package com.example.jwtsecurity.domain.service;
 
+import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
+import com.example.jwtsecurity.domain.dto.request.UpdateNameRequest;
+import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
+import com.example.jwtsecurity.domain.entity.BoardEntity;
 import com.example.jwtsecurity.domain.entity.MemberEntity;
 import com.example.jwtsecurity.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,24 +39,24 @@ public class MemberService {
         }
     }
 
-    /*
-    public MemberDTO join(MemberDTO memberDTO) {
-        Optional<MemberEntity> byName = memberRepository.findByMemberName(memberDTO.getName());
-        System.out.println("byName = " + byName);
-        if (byName.isEmpty()) {
-            MemberEntity newmemberEntity = MemberEntity.builder()
-                    .memberName(memberDTO.getName())
-                    .memberPassword(memberDTO.getPassword())
-                    .build();
-            memberRepository.save(newmemberEntity);
-            MemberDTO m_dto = MemberDTO.toMemberDTO(newmemberEntity);
-            return m_dto;
-        }else{
-            //이미 이름이 db에 있는 경우(메인화면으로 반환)
+    @Transactional
+    public UpdateNameResponse updateName(UpdateNameRequest updateNameRequest) {
+        Optional<MemberEntity> byName = memberRepository.findByMemberName(updateNameRequest.getNowName());
+        if (byName.isPresent()) {
+            if (Objects.equals(updateNameRequest.getPassword(), byName.get().getMemberPassword())) {
+                MemberEntity memberEntity = byName.get();
+                memberEntity.updateName(updateNameRequest.getNewName());
+
+                UpdateNameResponse response = UpdateNameResponse.toUpdateNameResponse(memberEntity);
+                return response;
+            }
             return null;
         }
+        return null;
     }
-    */
+
+
+
     @Transactional
     public boolean login(MemberDTO memberDTO) {
     /*1.이름으로 db에서 조회
