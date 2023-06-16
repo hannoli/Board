@@ -3,6 +3,8 @@ package com.example.jwtsecurity.domain.service;
 import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.LikeDTO;
 import com.example.jwtsecurity.domain.dto.request.DeleteBoardRequest;
+import com.example.jwtsecurity.domain.dto.request.UpdateBoardRequest;
+import com.example.jwtsecurity.domain.dto.response.UpdateBoardResopnse;
 import com.example.jwtsecurity.domain.entity.BoardEntity;
 import com.example.jwtsecurity.domain.entity.CommentEntity;
 import com.example.jwtsecurity.domain.entity.LikeEntity;
@@ -27,7 +29,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
-private final LikeRepository likeRepository;
+    private final LikeRepository likeRepository;
+
     public void findMemberByName(String memberName) {
         Optional<MemberEntity> member = memberRepository.findByMemberName(memberName);
         member.ifPresentOrElse(
@@ -64,7 +67,7 @@ private final LikeRepository likeRepository;
                 .orElseThrow(() -> new IllegalArgumentException("게시판을 찾을 수 없습니다"));
         if (Objects.equals(boardEntity.getBoardAuthor(), deleteBoardRequest.getName())) {
             List<CommentEntity> comments = boardEntity.getCommentEntities();
-List<LikeEntity> likes = boardEntity.getLikeEntities();
+            List<LikeEntity> likes = boardEntity.getLikeEntities();
             commentRepository.deleteAll(comments);
 
             likeRepository.deleteAll(likes);
@@ -85,5 +88,16 @@ List<LikeEntity> likes = boardEntity.getLikeEntities();
         return b_dto;
     }
 
+    @Transactional
+    public UpdateBoardResopnse boardUpdate(UpdateBoardRequest updateBoardRequest) {
+        BoardEntity boardEntity = boardRepository.findById(updateBoardRequest.getBoardId())
+                .orElseThrow(() -> new IllegalArgumentException("보드를 찾을 수 없습니다."));
+        if (Objects.equals(boardEntity.getBoardAuthor(), updateBoardRequest.getName())) {
+            boardEntity.updateTexts(updateBoardRequest.getNewBoardTexts());
+            UpdateBoardResopnse updateBoardResopnse = UpdateBoardResopnse.toUpdateBoardResponse(boardEntity);
+            return updateBoardResopnse;
+        }
+    throw new IllegalArgumentException("권한이 없습니다");
+    }
 
 }

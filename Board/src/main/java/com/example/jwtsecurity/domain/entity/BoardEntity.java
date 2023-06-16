@@ -102,4 +102,8 @@ public class BoardEntity {
     public void updateAuthor(String newAuthor) {
         this.boardAuthor = newAuthor;
     }
+
+    public void updateTexts(String boardTexts) {
+        this.boardTexts = boardTexts;
+    }
 }

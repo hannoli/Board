@@ -5,7 +5,9 @@ import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.CommentDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
 import com.example.jwtsecurity.domain.dto.request.DeleteBoardRequest;
+import com.example.jwtsecurity.domain.dto.request.UpdateBoardRequest;
 import com.example.jwtsecurity.domain.dto.request.UpdateNameRequest;
+import com.example.jwtsecurity.domain.dto.response.UpdateBoardResopnse;
 import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
 import com.example.jwtsecurity.domain.entity.Token;
 import com.example.jwtsecurity.domain.service.*;
@@ -94,4 +96,10 @@ public class UserController {
         boardService.deleteBoard(deleteboardRequest);
     }
 
+    @PostMapping("update/board")
+    public UpdateBoardResopnse updateBoard(@RequestBody UpdateBoardRequest updateBoardRequest){
+UpdateBoardResopnse updateBoardResopnse = boardService.boardUpdate(updateBoardRequest);
+        System.out.println("updateBoardResopnse = " + updateBoardResopnse);
+return updateBoardResopnse;
+    }
 }
