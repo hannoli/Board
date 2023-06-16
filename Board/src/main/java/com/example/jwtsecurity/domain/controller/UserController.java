@@ -4,6 +4,7 @@ package com.example.jwtsecurity.domain.controller;
 import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.CommentDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
+import com.example.jwtsecurity.domain.dto.request.DeleteBoardRequest;
 import com.example.jwtsecurity.domain.dto.request.UpdateNameRequest;
 import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
 import com.example.jwtsecurity.domain.entity.Token;
@@ -86,6 +87,11 @@ public class UserController {
     public UpdateNameResponse updateName(@RequestBody UpdateNameRequest updateNameRequest) {
         UpdateNameResponse updateNameResponse = memberService.updateName(updateNameRequest);
         return updateNameResponse;
+    }
+
+    @PostMapping("/board/delete")
+    public void updateName(@RequestBody DeleteBoardRequest deleteboardRequest) {
+        boardService.deleteBoard(deleteboardRequest);
     }
 
 }

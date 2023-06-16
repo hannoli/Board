@@ -62,6 +62,7 @@ public class BoardEntity {
                 .collect(Collectors.toList());
     }
 
+
     @Builder
     public BoardEntity(List<CommentEntity> commentEntities, Long id, String boardTitle, String boardTexts, String boardAuthor, LocalTime boardLocaltime, Long boardView, Long boardLike, MemberEntity memberEntity
             , List<LikeEntity> likeEntities) {
