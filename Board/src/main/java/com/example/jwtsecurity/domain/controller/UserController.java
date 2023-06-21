@@ -4,10 +4,8 @@ package com.example.jwtsecurity.domain.controller;
 import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.CommentDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
-import com.example.jwtsecurity.domain.dto.request.DeleteBoardRequest;
-import com.example.jwtsecurity.domain.dto.request.UpdateBoardRequest;
-import com.example.jwtsecurity.domain.dto.request.UpdateNameRequest;
-import com.example.jwtsecurity.domain.dto.request.UpdatePasswordRequest;
+import com.example.jwtsecurity.domain.dto.request.*;
+import com.example.jwtsecurity.domain.dto.response.BoardListResponse;
 import com.example.jwtsecurity.domain.dto.response.UpdateBoardResopnse;
 import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
 import com.example.jwtsecurity.domain.dto.response.UpdatePasswordResponse;
@@ -110,5 +108,11 @@ public class UserController {
         UpdatePasswordResponse updatePasswordResponse = memberService.updatePassword(updatePasswordRequest);
         return updatePasswordResponse;
 
+    }
+
+    @PostMapping("boardList")
+    public BoardListResponse boardListResponse(@RequestBody BoardListRequest boardListRequest){
+BoardListResponse boardListResponse= memberService.getBoardList(boardListRequest);
+return  boardListResponse;
     }
 }

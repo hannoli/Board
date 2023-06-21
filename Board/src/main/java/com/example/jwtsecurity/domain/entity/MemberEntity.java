@@ -2,6 +2,8 @@ package com.example.jwtsecurity.domain.entity;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +30,7 @@ public class MemberEntity {
 
     @Column
     private String memberPassword;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "memberEntities")
     private List<BoardEntity> boardEntities = new ArrayList<>();
 
@@ -39,7 +41,7 @@ public class MemberEntity {
     private List<LikeEntity> likeEntities = new ArrayList<>();
 
     @Builder
-    public MemberEntity(Long id, String memberName, String memberPassword,List<BoardEntity> boardEntities) {
+    public MemberEntity(Long id, String memberName, String memberPassword, List<BoardEntity> boardEntities) {
         this.id = id;
         this.memberName = memberName;
         this.memberPassword = memberPassword;
@@ -58,7 +60,8 @@ public class MemberEntity {
             likeEntity.updateLikeUser(newName);
         }
     }
-public void updatePassword(String newPassword){
+
+    public void updatePassword(String newPassword) {
         this.memberPassword = newPassword;
-}
+    }
 }

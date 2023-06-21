@@ -2,8 +2,10 @@ package com.example.jwtsecurity.domain.service;
 
 import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
+import com.example.jwtsecurity.domain.dto.request.BoardListRequest;
 import com.example.jwtsecurity.domain.dto.request.UpdateNameRequest;
 import com.example.jwtsecurity.domain.dto.request.UpdatePasswordRequest;
+import com.example.jwtsecurity.domain.dto.response.BoardListResponse;
 import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
 import com.example.jwtsecurity.domain.dto.response.UpdatePasswordResponse;
 import com.example.jwtsecurity.domain.entity.BoardEntity;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -76,7 +79,14 @@ public class MemberService {
         return null;
     }
 
-
+    @Transactional
+    public BoardListResponse getBoardList(BoardListRequest boardListRequest){
+        MemberEntity member = memberRepository.findByMemberName(boardListRequest.getName())
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+        List<BoardEntity> boardEntities = member.getBoardEntities();
+        BoardListResponse boardListResponse = BoardListResponse.toBoardListResponse(member);
+        return boardListResponse;
+    }
     @Transactional
     public boolean login(MemberDTO memberDTO) {
     /*1.이름으로 db에서 조회
