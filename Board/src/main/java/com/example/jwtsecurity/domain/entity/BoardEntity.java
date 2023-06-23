@@ -59,7 +59,7 @@ public class BoardEntity {
     @OneToMany(mappedBy = "boardLikeEntity")
     private List<LikeEntity> likeEntities = new ArrayList<>();
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "board")
     private List<Star> boardMember = new ArrayList<>();
 

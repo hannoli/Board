@@ -32,13 +32,13 @@ public class MemberEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "memberEntities")
     private List<BoardEntity> boardEntities = new ArrayList<>();
-
+@JsonIgnore
     @OneToMany(mappedBy = "memberCommentEntities")
     private List<CommentEntity> commentEntities = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "memberLikeEntities")
     private List<LikeEntity> likeEntities = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Star> boardMember = new ArrayList<>();
 

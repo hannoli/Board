@@ -10,8 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class UpdatePasswordResponse {
-    public String name;
-    public String updatePassword;
+    private String name;
+    private String updatePassword;
 
     public static UpdatePasswordResponse toupdatePasswordResponse(MemberEntity memberEntity) {
         UpdatePasswordResponse updateNameResponse = new UpdatePasswordResponse();

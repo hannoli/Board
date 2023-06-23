@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 public class UpdateBoardResopnse {
 
-    public String newTexts;
+    private String newTexts;
 
     public static UpdateBoardResopnse toUpdateBoardResponse(BoardEntity boardEntity) {
         UpdateBoardResopnse  updateBoardResopnse = new UpdateBoardResopnse();

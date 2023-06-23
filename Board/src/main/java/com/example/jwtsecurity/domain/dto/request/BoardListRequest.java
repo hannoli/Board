@@ -7,6 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Getter
 @NoArgsConstructor()
 public class BoardListRequest {
-    public String name = SecurityContextHolder.getContext().getAuthentication().getName();
+    private String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
 }

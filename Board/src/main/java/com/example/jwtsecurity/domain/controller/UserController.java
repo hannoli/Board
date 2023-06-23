@@ -6,6 +6,7 @@ import com.example.jwtsecurity.domain.dto.CommentDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
 import com.example.jwtsecurity.domain.dto.request.*;
 import com.example.jwtsecurity.domain.dto.response.*;
+import com.example.jwtsecurity.domain.entity.Star;
 import com.example.jwtsecurity.domain.entity.Token;
 import com.example.jwtsecurity.domain.service.*;
 import com.example.jwtsecurity.global.security.jwt.JwtTokenProvider;
@@ -118,5 +119,10 @@ public class UserController {
     public StarResponse starResponse(@PathVariable Long boardId, @RequestBody StarRequest starRequest) {
         StarResponse starResponse = starService.getStar(boardId);
         return  starResponse;
+    }
+
+    @PostMapping("board/star/list")
+    public StarListResponse starListResponse() {
+        return  starService.findBoardList();
     }
 }

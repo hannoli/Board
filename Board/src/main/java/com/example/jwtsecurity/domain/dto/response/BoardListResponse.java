@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class BoardListResponse {
-    public List<BoardEntity> boardDTOList;
+    private List<BoardEntity> boardDTOList;
 
     public static BoardListResponse toBoardListResponse(MemberEntity memberEntity) {
         BoardListResponse boardListResponse = new BoardListResponse();

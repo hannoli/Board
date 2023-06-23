@@ -1,5 +1,6 @@
     package com.example.jwtsecurity.domain.entity;
 
+    import com.fasterxml.jackson.annotation.JsonIgnore;
     import lombok.Builder;
     import lombok.Getter;
     import lombok.NoArgsConstructor;
@@ -21,9 +22,11 @@
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "member_id",nullable = false)
+        @JsonIgnore
         private MemberEntity member;
 
         @ManyToOne(fetch = FetchType.LAZY)
+        @JsonIgnore
         @JoinColumn(name = "board_id",nullable = false)
         private BoardEntity board;
 
