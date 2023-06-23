@@ -3,6 +3,7 @@ package com.example.jwtsecurity.domain.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
-    private Long id;
+    private Long    id;
 
     @Column
     private String boardTitle;
@@ -47,14 +48,20 @@ public class BoardEntity {
     private Long boardLike;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "member_id")
     private MemberEntity memberEntities;
+
 
     @OneToMany(mappedBy = "boardEntity")
     private List<CommentEntity> commentEntities = new ArrayList<>();
 
     @OneToMany(mappedBy = "boardLikeEntity")
     private List<LikeEntity> likeEntities = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "board")
+    private List<Star> boardMember = new ArrayList<>();
 
     public List<String> getLikeUserNames() {
         return likeEntities.stream()
@@ -65,7 +72,7 @@ public class BoardEntity {
 
     @Builder
     public BoardEntity(List<CommentEntity> commentEntities, Long id, String boardTitle, String boardTexts, String boardAuthor, LocalTime boardLocaltime, Long boardView, Long boardLike, MemberEntity memberEntity
-            , List<LikeEntity> likeEntities) {
+            , List<LikeEntity> likeEntities,List<Star> boardMember) {
         this.id = id;
         this.boardTitle = boardTitle;
         this.boardTexts = boardTexts;
@@ -76,6 +83,7 @@ public class BoardEntity {
         this.memberEntities = memberEntity;
         this.commentEntities = commentEntities;
         this.likeEntities = likeEntities;
+        this.boardMember = boardMember;
     //   this.memberEntities = memberEntities;
     }
 

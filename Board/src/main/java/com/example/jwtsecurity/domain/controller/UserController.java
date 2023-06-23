@@ -5,10 +5,7 @@ import com.example.jwtsecurity.domain.dto.BoardDTO;
 import com.example.jwtsecurity.domain.dto.CommentDTO;
 import com.example.jwtsecurity.domain.dto.MemberDTO;
 import com.example.jwtsecurity.domain.dto.request.*;
-import com.example.jwtsecurity.domain.dto.response.BoardListResponse;
-import com.example.jwtsecurity.domain.dto.response.UpdateBoardResopnse;
-import com.example.jwtsecurity.domain.dto.response.UpdateNameResponse;
-import com.example.jwtsecurity.domain.dto.response.UpdatePasswordResponse;
+import com.example.jwtsecurity.domain.dto.response.*;
 import com.example.jwtsecurity.domain.entity.Token;
 import com.example.jwtsecurity.domain.service.*;
 import com.example.jwtsecurity.global.security.jwt.JwtTokenProvider;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final StarService starService;
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtService jwtService;
     private final MemberService memberService;
@@ -104,15 +102,21 @@ public class UserController {
     }
 
     @PostMapping("update/password")
-    public UpdatePasswordResponse updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest){
+    public UpdatePasswordResponse updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) {
         UpdatePasswordResponse updatePasswordResponse = memberService.updatePassword(updatePasswordRequest);
         return updatePasswordResponse;
 
     }
 
     @PostMapping("boardList")
-    public BoardListResponse boardListResponse(@RequestBody BoardListRequest boardListRequest){
-BoardListResponse boardListResponse= memberService.getBoardList(boardListRequest);
-return  boardListResponse;
+    public BoardListResponse boardListResponse(@RequestBody BoardListRequest boardListRequest) {
+        BoardListResponse boardListResponse = memberService.getBoardList(boardListRequest);
+        return boardListResponse;
+    }
+
+    @PostMapping("board/{boardId}/star")
+    public StarResponse starResponse(@PathVariable Long boardId, @RequestBody StarRequest starRequest) {
+        StarResponse starResponse = starService.getStar(boardId);
+        return  starResponse;
     }
 }

@@ -69,7 +69,6 @@ public class BoardService {
             List<CommentEntity> comments = boardEntity.getCommentEntities();
             List<LikeEntity> likes = boardEntity.getLikeEntities();
             commentRepository.deleteAll(comments);
-
             likeRepository.deleteAll(likes);
             boardRepository.delete(boardEntity);
         } else {

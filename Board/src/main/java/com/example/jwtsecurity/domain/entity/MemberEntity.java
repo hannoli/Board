@@ -1,17 +1,14 @@
 package com.example.jwtsecurity.domain.entity;
 
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import reactor.util.annotation.Nullable;
 
+import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -30,6 +27,8 @@ public class MemberEntity {
 
     @Column
     private String memberPassword;
+
+
     @JsonIgnore
     @OneToMany(mappedBy = "memberEntities")
     private List<BoardEntity> boardEntities = new ArrayList<>();
@@ -40,13 +39,17 @@ public class MemberEntity {
     @OneToMany(mappedBy = "memberLikeEntities")
     private List<LikeEntity> likeEntities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Star> boardMember = new ArrayList<>();
+
     @Builder
-    public MemberEntity(Long id, String memberName, String memberPassword, List<BoardEntity> boardEntities) {
+    public MemberEntity(Long id, String memberName, String memberPassword,List<Star> boardMember) {
         this.id = id;
         this.memberName = memberName;
         this.memberPassword = memberPassword;
-        this.boardEntities = boardEntities;
+this.boardMember =boardMember;
     }
+
 
     public void updateName(String newName) {
         this.memberName = newName;
